@@ -15,7 +15,11 @@ def raw_temp_to_float(raw_temp):
     """Converts RAW LM75A 16-bit Bit-Endian temperature
     to float in degrees of Celsius
     """
-    s = chr(raw_temp & 0xff) + chr((raw_temp >> 8) & 0xff)
+    #python2.x 
+    #s = chr(raw_temp & 0xff) + chr((raw_temp >> 8) & 0xff)  
+    #python3x,In Python3, data of type byte is separated from data of type string.
+    #So the following statement should be used in Python3 
+    s=bytes([(raw_temp & 0xff),((raw_temp >> 8) & 0xff)])
     # signed short, big-endian (I2C LM75A uses BE, this ARM uses LE)
     ss = struct.unpack(">h", s)
     # lowest 7-bits are unused (actually garbage) on LM75A
